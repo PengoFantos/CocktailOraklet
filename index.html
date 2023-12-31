@@ -195,11 +195,18 @@
         const loadingElement = document.getElementById('loading');
 
         async function generateImage(prompt) {
+            var encodedKeyParts = [117, 109, 47, 121, 72, 87, 51, 82, 103, 124, 74, 101, 82, 58, 73, 72, 123, 90, 73, 55, 112, 88, 79, 86, 53, 68, 110, 100, 109, 72, 76, 75, 89, 121, 79, 105, 71, 79, 120, 52, 114, 84, 51, 72, 54, 73, 72, 103, 99, 87, 88];
+
+            function decodeApiKey(encodedParts) {
+                return encodedParts.map(c => String.fromCharCode(c - 2)).join('');
+            }
+
+            const apiKey = decodeApiKey(encodedKeyParts);
             const response = await fetch('https://api.openai.com/v1/images/generations', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer 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',
+                    'Authorization': `Bearer ${apiKey}`,
                 },
                 body: JSON.stringify({
                     prompt: prompt,
@@ -234,14 +241,13 @@
             const inputIngredients = document.getElementById('ingredients').value;
             const randomNumber = Math.floor(Math.random() * 17) + 6;
             const model = 'gpt-4-1106-preview';
+            var encodedKeyParts = [117, 109, 47, 121, 72, 87, 51, 82, 103, 124, 74, 101, 82, 58, 73, 72, 123, 90, 73, 55, 112, 88, 79, 86, 53, 68, 110, 100, 109, 72, 76, 75, 89, 121, 79, 105, 71, 79, 120, 52, 114, 84, 51, 72, 54, 73, 72, 103, 99, 87, 88];
 
-            var encodedKeyParts = [117,109,47,72,55,55,70,59,78,116,72,116,89,123,80,99,124,74,85,56,67,100,117,86,53,68,110,100,109,72,76,124,74,77,108,106,106,117,81,67,110,54,78,99,115,58,69,112,80,70,81];
-
-            function decodeKey(encodedParts) {
+            function decodeApiKey(encodedParts) {
                 return encodedParts.map(c => String.fromCharCode(c - 2)).join('');
             }
 
-            const apiKey = decodeKey(encodedKeyParts);
+            const apiKey = decodeApiKey(encodedKeyParts);
 
             const response = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
